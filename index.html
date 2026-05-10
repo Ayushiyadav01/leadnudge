@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadNudge: The First Broker to Respond Wins the Deal.</title>
+  <meta name="description" content="LeadNudge captures every lead from 99acres, MagicBricks and WhatsApp, then responds instantly so you're always the first broker a buyer hears back from." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #25D366;
+      --green-dark: #1da851;
+      --green-light: #e8fdf1;
+      --navy: #0F172A;
+      --navy-mid: #1e293b;
+      --amber: #F59E0B;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --white: #ffffff;
+      --radius: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-green: 0 8px 32px rgba(37,211,102,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* UTILITIES */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green-light); color: var(--green-dark);
+      font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      padding: 7px 14px; border-radius: 99px; margin-bottom: 20px;
+    }
+    .tag-dot {
+      width: 6px; height: 6px; background: var(--green);
+      border-radius: 50%; flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800; line-height: 1.15; letter-spacing: -.02em;
+    }
+    .section-subtitle {
+      font-size: 18px; color: var(--gray-600); margin-top: 14px; max-width: 560px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px; font-size: 15px;
+      font-weight: 600; cursor: pointer; border: 2px solid transparent;
+      transition: all .2s ease; text-decoration: none; white-space: nowrap;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--green); color: var(--white);
+      box-shadow: var(--shadow-green);
+    }
+    .btn-primary:hover {
+      background: var(--green-dark); transform: translateY(-1px);
+      box-shadow: 0 12px 40px rgba(37,211,102,0.35);
+    }
+    .btn-outline {
+      background: transparent; color: var(--navy);
+      border-color: var(--gray-200);
+    }
+    .btn-outline:hover {
+      border-color: var(--green); color: var(--green); transform: translateY(-1px);
+    }
+    .btn-lg { padding: 16px 36px; font-size: 16px; border-radius: 12px; }
+
+    /* Fade-in */
+    .fade-in {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .3s; }
+    .delay-4 { transition-delay: .4s; }
+    .delay-5 { transition-delay: .5s; }
+
+    /* NAVBAR */
+    #navbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gray-100);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: var(--shadow-md); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      font-size: 21px; font-weight: 800; text-decoration: none;
+      color: var(--navy); letter-spacing: -.03em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-logo-icon {
+      width: 28px; height: 28px; background: var(--green);
+      border-radius: 7px; display: flex; align-items: center;
+      justify-content: center; color: white;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--gray-600);
+      font-size: 15px; font-weight: 500; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 8px; border: none; background: none;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--navy); border-radius: 2px; transition: all .3s;
+    }
+    .mobile-menu {
+      display: none; position: absolute; top: 68px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--gray-100);
+      padding: 16px 24px 24px; flex-direction: column; gap: 2px;
+      box-shadow: var(--shadow-md);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; color: var(--gray-600); font-size: 16px;
+      font-weight: 500; padding: 13px 0; border-bottom: 1px solid var(--gray-100);
+      transition: color .2s;
+    }
+    .mobile-menu a:last-of-type { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--green); }
+    .mobile-cta { margin-top: 14px; width: 100%; text-align: center; }
+
+    /* HERO */
+    #hero {
+      background: linear-gradient(140deg, #f0fdf7 0%, #eafaf1 45%, #f8fafc 100%);
+      padding: 80px 0 96px; overflow: hidden; position: relative;
+    }
+    #hero::before {
+      content: ''; position: absolute; top: -180px; right: -180px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(37,211,102,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white); border: 1px solid var(--green-light);
+      border-radius: 99px; padding: 8px 16px; margin-bottom: 28px;
+      font-size: 13px; font-weight: 600; color: var(--green-dark);
+      box-shadow: var(--shadow-sm);
+    }
+    .live-dot {
+      width: 8px; height: 8px; background: var(--green);
+      border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.4); }
+    }
+    .hero-title {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 900; line-height: 1.08; letter-spacing: -.03em; margin-bottom: 22px;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 18px; color: var(--gray-600); line-height: 1.65;
+      margin-bottom: 40px; max-width: 500px;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero-trust {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; color: var(--gray-400);
+    }
+    .hero-trust .avatars { display: flex; }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--white); margin-left: -8px;
+      background: linear-gradient(135deg, #25D366, #1da851);
+      color: var(--white); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .avatar:first-child { margin-left: 0; }
+
+    /* WhatsApp Mockup */
+    .whatsapp-mockup {
+      background: var(--white); border-radius: 24px;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.04);
+      overflow: hidden; max-width: 340px; margin: 0 auto;
+    }
+    .wa-header {
+      background: #075E54; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .wa-back { color: rgba(255,255,255,0.8); display: flex; align-items: center; cursor: pointer; }
+    .wa-avatar-wrap {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--green); display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+      font-size: 13px; font-weight: 800; color: white; letter-spacing: -.02em;
+    }
+    .wa-contact { flex: 1; min-width: 0; }
+    .wa-name { color: var(--white); font-size: 15px; font-weight: 600; }
+    .wa-status { color: rgba(255,255,255,0.65); font-size: 11px; }
+    .wa-icons {
+      display: flex; gap: 14px;
+      color: rgba(255,255,255,0.8); align-items: center;
+    }
+    .wa-body {
+      background: #e5ddd5;
+      background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8b89a' fill-opacity='0.12' fill-rule='evenodd'%3E%3Cpath d='M26 0l26 26-26 26L0 26z'/%3E%3C/g%3E%3C/svg%3E");
+      padding: 14px; min-height: 340px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .wa-date {
+      text-align: center; margin: 2px 0;
+    }
+    .wa-date span {
+      background: rgba(255,255,255,0.72); color: #667781;
+      font-size: 11px; padding: 4px 12px; border-radius: 7px;
+    }
+    .wa-row { display: flex; }
+    .wa-row.recv { justify-content: flex-start; }
+    .wa-row.sent { justify-content: flex-end; }
+    .wa-bubble {
+      max-width: 82%; padding: 8px 10px 22px;
+      border-radius: 8px; font-size: 13px; line-height: 1.4;
+      position: relative; word-break: break-word; color: #111;
+    }
+    .wa-row.recv .wa-bubble { background: var(--white); border-radius: 0 8px 8px 8px; }
+    .wa-row.sent .wa-bubble { background: #dcf8c6; border-radius: 8px 0 8px 8px; }
+    .wa-time {
+      position: absolute; bottom: 5px; right: 8px;
+      font-size: 10px; color: #aaa; white-space: nowrap;
+    }
+    .wa-row.sent .wa-time { color: #5c8a6a; }
+    .wa-sender { font-size: 11px; font-weight: 700; color: #1da851; margin-bottom: 2px; }
+    .wa-sys { text-align: center; }
+    .wa-sys span {
+      display: inline-block; background: rgba(255,255,255,0.7); color: #555;
+      font-size: 11px; padding: 4px 12px; border-radius: 7px;
+    }
+    .wa-input-bar {
+      background: #f0f2f5; padding: 8px 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .wa-input-field {
+      flex: 1; background: var(--white); border-radius: 20px;
+      padding: 9px 14px; font-size: 13px; color: #aaa;
+      border: none; outline: none;
+    }
+    .wa-send-btn {
+      width: 38px; height: 38px; background: var(--green); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: white;
+    }
+    .wa-icon-btn { color: #8696a0; display: flex; align-items: center; }
+
+    /* Typing */
+    .typing-wrap { display: flex; align-items: center; gap: 4px; padding: 4px 2px; }
+    .t-dot {
+      width: 7px; height: 7px; background: #aaa;
+      border-radius: 50%; animation: tdot 1.3s infinite;
+    }
+    .t-dot:nth-child(2) { animation-delay: .2s; }
+    .t-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes tdot {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+
+    /* PROBLEM */
+    #problem { background: var(--white); }
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .problem-card {
+      background: var(--white); border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius); padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .problem-card:hover {
+      transform: translateY(-4px); box-shadow: var(--shadow-lg);
+      border-color: var(--gray-200);
+    }
+    .problem-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: #fef2f2; color: #dc2626;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; transition: transform .25s;
+    }
+    .problem-card:hover .problem-icon-wrap { transform: scale(1.08); }
+    .problem-card h3 { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+    .problem-card p { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+
+    /* HOW IT WORKS */
+    #how-it-works { background: var(--gray-50); }
+    .steps-wrapper {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 56px; position: relative;
+    }
+    .steps-connector {
+      position: absolute; top: 34px; left: 12.5%; right: 12.5%;
+      height: 1px; background: var(--gray-200); z-index: 0;
+    }
+    .step { padding: 0 16px; text-align: center; position: relative; z-index: 1; }
+    .step-num-wrap {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; transition: border-color .3s, box-shadow .3s;
+    }
+    .step:hover .step-num-wrap {
+      border-color: var(--green);
+      box-shadow: 0 0 0 6px rgba(37,211,102,.1);
+    }
+    .step-num { font-size: 22px; font-weight: 900; color: var(--green); }
+    .step-icon-wrap {
+      width: 36px; height: 36px; margin: 0 auto 14px;
+      color: var(--green-dark); display: flex; align-items: center; justify-content: center;
+    }
+    .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+    /* FEATURES */
+    #features { background: var(--white); }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .feature-card {
+      background: var(--white); border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius); padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px); box-shadow: var(--shadow-lg);
+      border-color: var(--green-light);
+    }
+    .feature-icon-wrap {
+      width: 50px; height: 50px; border-radius: 13px;
+      background: var(--green-light); color: var(--green-dark);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; transition: background .25s, transform .25s;
+    }
+    .feature-card:hover .feature-icon-wrap { background: var(--green); color: var(--white); transform: scale(1.05); }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+
+    /* STATS */
+    #stats { background: var(--navy); padding: 80px 0; }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr;
+      gap: 0; align-items: center;
+    }
+    .stat-divider { background: rgba(255,255,255,0.08); height: 80px; }
+    .stat-item { text-align: center; padding: 0 40px; }
+    .stat-number {
+      font-size: clamp(44px, 6vw, 64px);
+      font-weight: 900; color: var(--green);
+      letter-spacing: -.04em; line-height: 1; margin-bottom: 12px; display: block;
+    }
+    .stat-label { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.55; }
+
+    /* WHO IS THIS FOR */
+    #who { background: var(--gray-50); }
+    .who-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 28px; margin-top: 56px;
+    }
+    .who-card {
+      background: var(--white); border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius); padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .who-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--green-light); }
+    .who-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--green-light); color: var(--green-dark);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .who-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .who-card > p { font-size: 14px; color: var(--gray-600); line-height: 1.65; margin-bottom: 20px; }
+    .who-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .who-list li { font-size: 14px; color: var(--gray-600); display: flex; align-items: flex-start; gap: 9px; }
+    .who-check { flex-shrink: 0; color: var(--green); margin-top: 1px; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: var(--white); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 28px; margin-top: 56px;
+    }
+    .testimonial-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 36px 32px; box-shadow: var(--shadow-sm);
+      border: 1.5px solid var(--gray-100);
+      transition: transform .25s, box-shadow .25s; position: relative;
+    }
+    .testimonial-card::after {
+      content: '\201C'; position: absolute; top: 16px; right: 24px;
+      font-size: 72px; color: var(--green-light); font-family: Georgia, serif;
+      line-height: 1; pointer-events: none;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .stars { color: var(--amber); font-size: 16px; margin-bottom: 16px; letter-spacing: 3px; }
+    .testimonial-text {
+      font-size: 15px; color: var(--gray-600); line-height: 1.75;
+      margin-bottom: 24px; font-style: italic;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), #1a9e4e);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; color: var(--white); flex-shrink: 0;
+    }
+    .author-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .author-role { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+
+    /* URGENCY */
+    #urgency { background: var(--navy); padding: 80px 0; }
+    .urgency-inner {
+      display: grid; grid-template-columns: 1fr 1px 1fr;
+      gap: 56px; align-items: center;
+    }
+    .urgency-left { text-align: center; padding: 0 24px; }
+    .urgency-stat {
+      font-size: clamp(64px, 10vw, 112px); font-weight: 900;
+      color: var(--amber); letter-spacing: -.04em; line-height: 1; display: block;
+    }
+    .urgency-stat-label { font-size: 16px; color: rgba(255,255,255,0.5); margin-top: 10px; line-height: 1.55; }
+    .urg-divider { background: rgba(255,255,255,0.08); }
+    .urgency-right { padding: 0 24px; }
+    .urgency-right h3 {
+      font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+      color: var(--white); margin-bottom: 24px; line-height: 1.35;
+    }
+    .urgency-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .urgency-list li { font-size: 15px; color: rgba(255,255,255,0.65); display: flex; align-items: flex-start; gap: 10px; }
+    .urg-dot { width: 6px; height: 6px; background: var(--amber); border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+
+    /* BOOK DEMO CTA */
+    #book-demo {
+      background: linear-gradient(140deg, #f0fdf7 0%, #eafaf1 45%, #f8fafc 100%);
+      padding: 96px 0; position: relative; overflow: hidden;
+    }
+    #book-demo::before {
+      content: ''; position: absolute; bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(37,211,102,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .demo-cta-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    .demo-cta-title {
+      font-size: clamp(26px, 3.5vw, 40px); font-weight: 800;
+      line-height: 1.2; letter-spacing: -.025em; margin-bottom: 16px;
+    }
+    .demo-cta-sub { font-size: 17px; color: var(--gray-600); line-height: 1.65; margin-bottom: 28px; }
+    .demo-bullets { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .demo-bullet { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: var(--gray-600); }
+    .demo-bullet-check { flex-shrink: 0; color: var(--green); margin-top: 2px; }
+    .demo-cta-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .demo-aside {
+      background: var(--white); border-radius: 20px;
+      padding: 36px 28px; box-shadow: var(--shadow-lg);
+      border: 1.5px solid var(--gray-100); position: relative; z-index: 1;
+    }
+    .demo-aside-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .demo-aside-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 24px; }
+    .demo-steps { display: flex; flex-direction: column; }
+    .demo-step-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--gray-100);
+    }
+    .demo-step-item:last-child { border-bottom: none; }
+    .demo-step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--green-light); color: var(--green-dark);
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .demo-step-text { font-size: 14px; font-weight: 600; color: var(--navy); }
+    .demo-step-sub { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+    .demo-aside-cta {
+      margin-top: 24px; width: 100%;
+      padding: 14px; border-radius: 11px;
+      background: var(--green); color: var(--white);
+      font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+      transition: all .2s; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; box-shadow: var(--shadow-green);
+    }
+    .demo-aside-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    /* EARLY ACCESS */
+    #early-access {
+      background: linear-gradient(140deg, #1a9e4e 0%, #25D366 55%, #2ee877 100%);
+      padding: 96px 0; position: relative; overflow: hidden;
+    }
+    #early-access::before {
+      content: ''; position: absolute; top: -120px; left: -120px;
+      width: 420px; height: 420px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); pointer-events: none;
+    }
+    #early-access::after {
+      content: ''; position: absolute; bottom: -120px; right: -100px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: rgba(0,0,0,0.06); pointer-events: none;
+    }
+    .ea-inner { text-align: center; position: relative; z-index: 1; }
+    .ea-title {
+      font-size: clamp(26px, 4vw, 42px); font-weight: 900;
+      color: var(--white); margin-bottom: 14px; letter-spacing: -.02em; line-height: 1.15;
+    }
+    .ea-sub { font-size: 17px; color: rgba(255,255,255,0.82); margin-bottom: 40px; }
+    .ea-form {
+      max-width: 540px; margin: 0 auto;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 20px; padding: 36px;
+    }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 14px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.82); text-align: left; }
+    .form-group input {
+      padding: 12px 16px; border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.14);
+      color: var(--white); font-size: 14px; font-family: inherit;
+      outline: none; transition: border-color .2s, background .2s;
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,0.48); }
+    .form-group input:focus {
+      border-color: rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.2);
+    }
+    .ea-submit {
+      width: 100%; padding: 15px; border-radius: 11px;
+      background: var(--navy); color: var(--white);
+      font-size: 16px; font-weight: 700; border: none; cursor: pointer;
+      transition: all .2s; margin-bottom: 14px; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .ea-submit:hover { background: #1e293b; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+    .ea-note {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .ea-note strong { color: rgba(255,255,255,0.88); }
+
+    .success-banner {
+      display: none; background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35); border-radius: 12px;
+      padding: 18px 20px; color: var(--white);
+      font-size: 16px; font-weight: 600;
+      align-items: center; justify-content: center; gap: 10px;
+    }
+    .success-banner.show { display: flex; }
+
+    /* FOOTER */
+    footer { background: var(--navy); padding: 56px 0 32px; }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 40px; padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .footer-brand { max-width: 240px; }
+    .footer-logo {
+      font-size: 20px; font-weight: 800; color: var(--white);
+      letter-spacing: -.03em; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .footer-logo-icon {
+      width: 26px; height: 26px; background: var(--green);
+      border-radius: 6px; display: flex; align-items: center;
+      justify-content: center; color: white;
+    }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .footer-links { display: flex; gap: 56px; }
+    .footer-col h4 {
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.35);
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block; font-size: 14px; color: rgba(255,255,255,0.6);
+      text-decoration: none; margin-bottom: 10px; transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--green); }
+    .footer-contact-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+    }
+    .footer-contact-item svg { flex-shrink: 0; opacity: .6; }
+    .footer-contact-item a {
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      margin-bottom: 0; display: inline; transition: color .2s;
+    }
+    .footer-contact-item a:hover { color: var(--green); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: rgba(255,255,255,0.3);
+    }
+    .footer-made { display: flex; align-items: center; gap: 5px; }
+    .footer-heart { color: #f43f5e; display: flex; align-items: center; }
+
+    /* ANIMATIONS */
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* VIDEO DEMO */
+    #demo { background: var(--gray-50); }
+    .video-outer {
+      max-width: 820px; margin: 52px auto 0;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.05);
+    }
+    .video-chrome {
+      background: #1e293b; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .chrome-dots { display: flex; gap: 6px; }
+    .chrome-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .chrome-dot.red   { background: #ff5f57; }
+    .chrome-dot.amber { background: #febc2e; }
+    .chrome-dot.green { background: #28c840; }
+    .chrome-bar {
+      flex: 1; background: rgba(255,255,255,0.08);
+      border-radius: 6px; height: 26px; display: flex;
+      align-items: center; padding: 0 12px;
+      font-size: 12px; color: rgba(255,255,255,0.35);
+      gap: 6px;
+    }
+    .chrome-bar svg { opacity: .4; flex-shrink: 0; }
+    .video-ratio {
+      position: relative; padding-bottom: 56.25%; height: 0;
+      background: var(--navy);
+    }
+    .video-ratio iframe,
+    .video-ratio video {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px; cursor: pointer;
+      background: linear-gradient(135deg, #0d1f16 0%, #0F172A 100%);
+    }
+    .video-placeholder::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(37,211,102,0.07) 0%, transparent 70%);
+    }
+    .play-ring {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2px solid rgba(37,211,102,0.5);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      transition: border-color .25s, transform .25s;
+    }
+    .play-ring::before {
+      content: ''; position: absolute; inset: -8px;
+      border-radius: 50%; border: 1px solid rgba(37,211,102,0.2);
+      animation: ripple 2.4s ease-out infinite;
+    }
+    @keyframes ripple {
+      0%   { transform: scale(1);   opacity: .6; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    .video-placeholder:hover .play-ring {
+      border-color: var(--green); transform: scale(1.08);
+    }
+    .play-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--green); display: flex;
+      align-items: center; justify-content: center;
+      box-shadow: 0 0 28px rgba(37,211,102,0.45);
+      transition: background .25s;
+    }
+    .video-placeholder:hover .play-icon { background: var(--green-dark); }
+    .video-placeholder-text {
+      text-align: center; position: relative; z-index: 1;
+    }
+    .video-placeholder-text strong {
+      display: block; color: var(--white);
+      font-size: 17px; font-weight: 700; margin-bottom: 4px;
+    }
+    .video-placeholder-text span {
+      font-size: 13px; color: rgba(255,255,255,0.45);
+    }
+    .video-badge {
+      position: absolute; top: 16px; right: 16px; z-index: 2;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px; letter-spacing: .04em;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .who-grid { grid-template-columns: repeat(2, 1fr); }
+      .urgency-inner { grid-template-columns: 1fr; gap: 40px; }
+      .urg-divider { display: none; }
+      .urgency-left { padding: 0; }
+      .urgency-right { padding: 0; }
+      .demo-cta-inner { gap: 40px; }
+      .steps-wrapper { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .steps-connector { display: none; }
+      .stat-item { padding: 0 20px; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .nav-links, .nav-right .btn { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-content { text-align: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-ctas { justify-content: center; }
+      .hero-trust { justify-content: center; }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+
+      .problem-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+      .steps-wrapper { grid-template-columns: 1fr 1fr; }
+
+      .features-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+      .stats-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stat-divider { display: none; }
+      .stat-item { padding: 0; }
+
+      .who-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+      .testimonials-grid { grid-template-columns: 1fr; }
+
+      .urgency-inner { grid-template-columns: 1fr; gap: 36px; }
+      .urg-divider { display: none; }
+      .urgency-left, .urgency-right { padding: 0; }
+
+      .demo-cta-inner { grid-template-columns: 1fr; }
+      .demo-cta-btns { flex-direction: column; }
+      .demo-cta-btns .btn-lg { width: 100%; }
+
+      .footer-top { flex-direction: column; gap: 36px; }
+      .footer-links { flex-direction: row; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+
+      .form-grid { grid-template-columns: 1fr; }
+      .ea-form { padding: 28px 20px; }
+    }
+
+    @media (max-width: 540px) {
+      .steps-wrapper { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn-lg { width: 100%; max-width: 300px; }
+      .footer-links { flex-direction: column; gap: 24px; }
+      .whatsapp-mockup { max-width: 300px; }
+      .section-title { font-size: clamp(24px, 7vw, 36px); }
+    }
+
+    @media (max-width: 360px) {
+      .container { padding: 0 16px; }
+      .hero-title { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        </span>
+        LeadNudge
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How it Works</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#who">Who It's For</a></li>
+        <li><a href="#early-access">Contact Us</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <a href="#book-demo" class="btn btn-primary">Book a Demo</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how-it-works" onclick="closeMobileMenu()">How it Works</a>
+    <a href="#demo" onclick="closeMobileMenu()">Demo</a>
+    <a href="#features" onclick="closeMobileMenu()">Features</a>
+    <a href="#who" onclick="closeMobileMenu()">Who It's For</a>
+    <a href="#early-access" onclick="closeMobileMenu()">Contact Us</a>
+    <a href="#book-demo" class="btn btn-primary mobile-cta" onclick="closeMobileMenu()">Book a Demo</a>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-content fade-in">
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          Early access open for Ahmedabad brokers
+        </div>
+
+        <h1 class="hero-title">
+          The First Broker<br />to Respond
+          <span class="highlight"> Wins the Deal.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          LeadNudge captures every lead the moment it arrives from 99acres, MagicBricks, or WhatsApp, and responds instantly, so you're always first before your competition even opens the notification.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#book-demo" class="btn btn-primary btn-lg">
+            Book a Free Demo
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#early-access" class="btn btn-outline btn-lg">
+            Start Free Trial
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <div class="avatars">
+            <div class="avatar">R</div>
+            <div class="avatar">A</div>
+            <div class="avatar">S</div>
+            <div class="avatar">M</div>
+          </div>
+          <span>200+ brokers on the early access waitlist</span>
+        </div>
+      </div>
+
+      <!-- WhatsApp Mockup -->
+      <div class="fade-in delay-2">
+        <div class="whatsapp-mockup">
+          <div class="wa-header">
+            <span class="wa-back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </span>
+            <div class="wa-avatar-wrap">LN</div>
+            <div class="wa-contact">
+              <div class="wa-name">LeadNudge Assistant</div>
+              <div class="wa-status">Online</div>
+            </div>
+            <div class="wa-icons">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+            </div>
+          </div>
+
+          <div class="wa-body">
+            <div class="wa-date"><span>Today, 10:32 AM</span></div>
+
+            <div class="wa-row recv">
+              <div class="wa-bubble">
+                <div class="wa-sender">Priya Mehta</div>
+                Hi, I saw your 2BHK listing in Bopal on 99acres. Is it still available? What is the price?
+                <span class="wa-time">10:32</span>
+              </div>
+            </div>
+
+            <div class="wa-row sent">
+              <div class="wa-bubble">
+                Hello Priya! The 2BHK in Bopal is available. It is priced at Rs. 65L, 1050 sq ft, ready to move. Would you like to schedule a visit this week?
+                <span class="wa-time">10:32 <span style="opacity:.7;">✓✓</span></span>
+              </div>
+            </div>
+
+            <div class="wa-row recv">
+              <div class="wa-bubble">
+                Yes, I am interested. Can we visit on Saturday?
+                <span class="wa-time">10:34</span>
+              </div>
+            </div>
+
+            <div class="wa-row sent">
+              <div class="wa-bubble">
+                Saturday 11 AM is confirmed. Your broker Rajesh will meet you there. Address: B-204, Bopal Heights. See you then.
+                <span class="wa-time">10:34 <span style="opacity:.7;">✓✓</span></span>
+              </div>
+            </div>
+
+            <div class="wa-sys"><span>Broker alert sent to Rajesh</span></div>
+
+            <div class="wa-row recv">
+              <div class="wa-bubble" style="padding-bottom:26px;">
+                <div class="typing-wrap">
+                  <span class="t-dot"></span>
+                  <span class="t-dot"></span>
+                  <span class="t-dot"></span>
+                </div>
+                <span class="wa-time">10:35</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wa-input-bar">
+            <span class="wa-icon-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            </span>
+            <div class="wa-input-field">Type a message</div>
+            <span class="wa-icon-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            </span>
+            <div class="wa-send-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- PROBLEM -->
+<section id="problem" class="section">
+  <div class="container">
+    <div class="fade-in">
+      <div class="tag"><span class="tag-dot"></span>The Problem</div>
+      <h2 class="section-title">Sound familiar?</h2>
+      <p class="section-subtitle">Every broker in India is losing lakhs of commission every year. Not because of bad properties, but because of these three problems.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card fade-in delay-1">
+        <div class="problem-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Leads from 99acres go cold because you forgot to call back</h3>
+        <p>A lead that doesn't hear from you within the first hour is 7x less likely to convert. That's hundreds of hot leads going cold every week.</p>
+      </div>
+
+      <div class="problem-card fade-in delay-2">
+        <div class="problem-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <h3>WhatsApp is a mess and you can't track who needs follow-up</h3>
+        <p>Hundreds of unread messages, no way to know who asked about what. Leads slip through the cracks because there's no system.</p>
+      </div>
+
+      <div class="problem-card fade-in delay-3">
+        <div class="problem-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+        </div>
+        <h3>You're losing deals not because of bad properties, but bad follow-up</h3>
+        <p>The broker who follows up consistently wins the client every time. Most brokers simply can't keep up manually.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="section">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="tag"><span class="tag-dot"></span>The Process</div>
+      <h2 class="section-title">Set it up once. Let it run.</h2>
+      <p class="section-subtitle" style="margin:14px auto 0;">No technical knowledge needed. If you can send a WhatsApp message, you can use LeadNudge.</p>
+    </div>
+
+    <div class="steps-wrapper">
+      <span class="steps-connector"></span>
+
+      <div class="step fade-in delay-1">
+        <div class="step-num-wrap"><span class="step-num">1</span></div>
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h3>Lead comes in</h3>
+        <p>An enquiry arrives from 99acres, MagicBricks, or directly over WhatsApp. LeadNudge catches it instantly.</p>
+      </div>
+
+      <div class="step fade-in delay-2">
+        <div class="step-num-wrap"><span class="step-num">2</span></div>
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        </div>
+        <h3>System captures instantly</h3>
+        <p>The lead is logged, qualified, and an instant reply is sent before you've even seen the notification.</p>
+      </div>
+
+      <div class="step fade-in delay-3">
+        <div class="step-num-wrap"><span class="step-num">3</span></div>
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>You respond immediately</h3>
+        <p>The buyer hears back in seconds. Follow-ups are sent automatically at 24h, 72h, and 7 days without you doing anything.</p>
+      </div>
+
+      <div class="step fade-in delay-4">
+        <div class="step-num-wrap"><span class="step-num">4</span></div>
+        <div class="step-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h3>Track and convert</h3>
+        <p>You get a WhatsApp ping only when a lead says yes to a site visit. No noise, just hot opportunities ready to close.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- VIDEO DEMO -->
+<section id="demo" class="section">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="tag"><span class="tag-dot"></span>Product Demo</div>
+      <h2 class="section-title">See LeadNudge in action</h2>
+      <p class="section-subtitle" style="margin:14px auto 0;">Watch how a lead arrives from 99acres and gets followed up automatically, without the broker doing anything.</p>
+    </div>
+
+    <div class="video-outer fade-in delay-1">
+      <div class="video-chrome">
+        <div class="chrome-dots">
+          <span class="chrome-dot red"></span>
+          <span class="chrome-dot amber"></span>
+          <span class="chrome-dot green"></span>
+        </div>
+        <div class="chrome-bar">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          leadnudge.in/demo
+        </div>
+      </div>
+
+      <div class="video-ratio">
+        <div class="video-placeholder" id="videoPlaceholder"
+             data-src="https://drive.google.com/file/d/11XJuF0jBz6D0QVO8GqPEixgSBVmJF3LU/preview"
+             onclick="loadDemoVideo(this)">
+          <div class="play-ring">
+            <div class="play-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+          </div>
+          <div class="video-placeholder-text">
+            <strong>Watch the 2-minute demo</strong>
+            <span>See exactly how LeadNudge works for Indian brokers</span>
+          </div>
+          <span class="video-badge">2 MIN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="container">
+    <div class="fade-in">
+      <div class="tag"><span class="tag-dot"></span>Features</div>
+      <h2 class="section-title">Everything a broker needs.<br />Nothing they don't.</h2>
+      <p class="section-subtitle">Built specifically for how Indian real estate brokers actually work: on WhatsApp, on the go.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card fade-in delay-1">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h3>Instant Lead Alerts</h3>
+        <p>Get a WhatsApp notification the moment a new lead comes in from any source. Never be the last to know again.</p>
+      </div>
+
+      <div class="feature-card fade-in delay-2">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </div>
+        <h3>Auto Follow-up</h3>
+        <p>Automatic follow-up sequences at 24 hours, 72 hours, and 7 days. Sent via WhatsApp without you lifting a finger.</p>
+      </div>
+
+      <div class="feature-card fade-in delay-3">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Lead Pipeline</h3>
+        <p>See every lead and their current status (New, Contacted, Interested, Visit Scheduled, Closed) in one clean view.</p>
+      </div>
+
+      <div class="feature-card fade-in delay-1">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Portal Integration</h3>
+        <p>Automatically capture leads from 99acres and MagicBricks the moment they enquire. No copy-pasting, no delays.</p>
+      </div>
+
+      <div class="feature-card fade-in delay-2">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>WhatsApp First</h3>
+        <p>Manage everything from WhatsApp. No new app to download, no new platform to learn. Works where you already work.</p>
+      </div>
+
+      <div class="feature-card fade-in delay-3">
+        <div class="feature-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Visit Scheduler</h3>
+        <p>Clients can book and confirm site visits directly over WhatsApp. Slots get confirmed, reminders sent automatically.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <span class="stat-number">87%</span>
+        <p class="stat-label">of brokers lose deals due to poor follow-up, not bad properties</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item fade-in delay-2">
+        <span class="stat-number">3x</span>
+        <p class="stat-label">more site visits booked with automated follow-up sequences</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item fade-in delay-4">
+        <span class="stat-number">10K+</span>
+        <p class="stat-label">brokers in Ahmedabad still managing leads on Excel and WhatsApp manually</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHO IS THIS FOR -->
+<section id="who" class="section">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="tag"><span class="tag-dot"></span>Who It's For</div>
+      <h2 class="section-title">Built for brokers who are serious about closing.</h2>
+      <p class="section-subtitle" style="margin:14px auto 0;">Whether you handle 10 leads a month or 100, LeadNudge works the same way: automatically, on WhatsApp.</p>
+    </div>
+
+    <div class="who-grid">
+
+      <div class="who-card fade-in delay-1">
+        <div class="who-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h3>Solo Brokers</h3>
+        <p>Managing everything yourself? LeadNudge acts as your silent assistant, capturing and following up leads around the clock while you're out showing properties.</p>
+        <ul class="who-list">
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Handle 3x more leads without extra help
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Never lose a deal to a forgotten callback
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Runs entirely over WhatsApp, no new apps needed
+          </li>
+        </ul>
+      </div>
+
+      <div class="who-card fade-in delay-2">
+        <div class="who-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Active Portal Agents</h3>
+        <p>Listed on 99acres and MagicBricks? Stop missing leads while you're with another client. Auto-responses keep every new enquiry warm until you can take over.</p>
+        <ul class="who-list">
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Instant replies to 99acres and MagicBricks leads
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Automated follow-up at 24h, 72h, and 7 days
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            You get notified only when a lead is ready to visit
+          </li>
+        </ul>
+      </div>
+
+      <div class="who-card fade-in delay-3">
+        <div class="who-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Small Brokerage Firms</h3>
+        <p>Running a team of agents? Centralize all incoming leads and ensure every team member follows up consistently, with zero manual coordination from you.</p>
+        <ul class="who-list">
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            All team leads in one organized pipeline
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Auto-assign leads to the right agent instantly
+          </li>
+          <li>
+            <svg class="who-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Track conversions and follow-up rates across your team
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="tag"><span class="tag-dot"></span>Testimonials</div>
+      <h2 class="section-title">Brokers love LeadNudge</h2>
+      <p class="section-subtitle" style="margin:14px auto 0;">Early users share what changed when they started responding faster.</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in delay-1">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Since using LeadNudge, I haven't missed a single follow-up. My conversions went up in the very first month. The automatic WhatsApp reminders are a game-changer. Clients feel attended to, and I get more site visits than ever before."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">R</div>
+          <div>
+            <div class="author-name">Rajesh Patel</div>
+            <div class="author-role">Independent Broker · Bopal, Ahmedabad</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card fade-in delay-2">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"I used to lose leads because I forgot to call back. It happens when you're juggling 30 clients at once. Now the system follows up for me automatically. I just show up for the site visit. My income has increased by almost 40% this quarter."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Amit Shah</div>
+            <div class="author-role">Senior Broker · Satellite, Ahmedabad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- URGENCY -->
+<section id="urgency">
+  <div class="container">
+    <div class="urgency-inner">
+
+      <div class="urgency-left fade-in">
+        <span class="urgency-stat">30 min</span>
+        <p class="urgency-stat-label">is all the time you have before<br />a lead goes cold for good</p>
+      </div>
+
+      <div class="urg-divider"></div>
+
+      <div class="urgency-right fade-in delay-2">
+        <h3>What happens when you don't respond fast enough?</h3>
+        <ul class="urgency-list">
+          <li>
+            <span class="urg-dot"></span>
+            The lead calls a competitor who picks up immediately and you lose the commission
+          </li>
+          <li>
+            <span class="urg-dot"></span>
+            Buyers forget they even enquired. By the time you call back, they've already decided on someone else
+          </li>
+          <li>
+            <span class="urg-dot"></span>
+            You're spending money on 99acres listings, but every slow response wastes that investment
+          </li>
+          <li>
+            <span class="urg-dot"></span>
+            The broker who replies in 5 minutes books the site visit. The one who replies in 2 hours gets ignored
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- BOOK DEMO CTA -->
+<section id="book-demo">
+  <div class="container">
+    <div class="demo-cta-inner">
+
+      <div class="fade-in">
+        <div class="tag"><span class="tag-dot"></span>Free Demo</div>
+        <h2 class="demo-cta-title">See how LeadNudge works for your brokerage, in 20 minutes</h2>
+        <p class="demo-cta-sub">Book a free walkthrough and we'll show you exactly how leads flow in, get followed up automatically, and land on your WhatsApp as hot prospects ready for a site visit.</p>
+        <div class="demo-bullets">
+          <div class="demo-bullet">
+            <svg class="demo-bullet-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            20-minute live walkthrough on Zoom or Google Meet
+          </div>
+          <div class="demo-bullet">
+            <svg class="demo-bullet-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            See real lead flows from 99acres and WhatsApp live
+          </div>
+          <div class="demo-bullet">
+            <svg class="demo-bullet-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Get a custom setup plan for your specific workflow
+          </div>
+          <div class="demo-bullet">
+            <svg class="demo-bullet-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Completely free. No credit card, no commitment
+          </div>
+        </div>
+        <div class="demo-cta-btns">
+          <a href="#early-access" class="btn btn-primary btn-lg">
+            Book Your Free Demo
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#early-access" class="btn btn-outline btn-lg">Start Free Trial</a>
+        </div>
+      </div>
+
+      <div class="demo-aside fade-in delay-2">
+        <div class="demo-aside-title">What we'll cover in your demo</div>
+        <div class="demo-aside-sub">A quick, no-pressure 20-minute session</div>
+        <div class="demo-steps">
+          <div class="demo-step-item">
+            <div class="demo-step-num">1</div>
+            <div>
+              <div class="demo-step-text">Your current lead flow</div>
+              <div class="demo-step-sub">We understand how you work today</div>
+            </div>
+          </div>
+          <div class="demo-step-item">
+            <div class="demo-step-num">2</div>
+            <div>
+              <div class="demo-step-text">Live lead capture demo</div>
+              <div class="demo-step-sub">See a real 99acres lead arrive and respond instantly</div>
+            </div>
+          </div>
+          <div class="demo-step-item">
+            <div class="demo-step-num">3</div>
+            <div>
+              <div class="demo-step-text">Auto follow-up walkthrough</div>
+              <div class="demo-step-sub">Watch the 24h, 72h, 7-day sequence run live</div>
+            </div>
+          </div>
+          <div class="demo-step-item">
+            <div class="demo-step-num">4</div>
+            <div>
+              <div class="demo-step-text">Your custom setup plan</div>
+              <div class="demo-step-sub">We'll map out exactly how to get you started</div>
+            </div>
+          </div>
+        </div>
+        <a href="#early-access" class="demo-aside-cta">
+          Book My Free Demo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- EARLY ACCESS -->
+<section id="early-access">
+  <div class="container">
+    <div class="ea-inner fade-in">
+      <div class="tag" style="background:rgba(255,255,255,0.18);color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.2);">
+        <span style="width:6px;height:6px;background:white;border-radius:50%;flex-shrink:0;"></span>
+        Early Access
+      </div>
+      <h2 class="ea-title">Ready to see it work for you?</h2>
+      <p class="ea-sub">Fill in your details and we'll reach out on WhatsApp within 24 hours to set up your free demo or trial. No credit card, no commitment.</p>
+
+      <div class="ea-form">
+        <form id="earlyAccessForm" onsubmit="handleFormSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="f-name">Your Name</label>
+              <input type="text" id="f-name" name="name" placeholder="Rajesh Patel" required />
+            </div>
+            <div class="form-group">
+              <label for="f-phone">WhatsApp Number</label>
+              <input type="tel" id="f-phone" name="phone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label for="f-email">Email Address</label>
+              <input type="email" id="f-email" name="email" placeholder="rajesh@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="f-city">City / Area</label>
+              <input type="text" id="f-city" name="city" placeholder="Bopal, Ahmedabad" required />
+            </div>
+          </div>
+          <button type="submit" class="ea-submit">
+            Get Early Access
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="ea-note">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <strong>No spam, ever.</strong> We're onboarding brokers in Ahmedabad first. Limited spots available.
+          </p>
+        </form>
+        <div class="success-banner" id="successBanner">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          You're on the list! We'll WhatsApp you within 24 hours with your early access details.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">
+          <span class="footer-logo-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </span>
+          LeadNudge
+        </a>
+        <p class="footer-tagline">Never Miss a Lead. Close More Deals. The WhatsApp-first CRM built for Indian real estate brokers.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How it Works</a>
+          <a href="#book-demo">Book a Demo</a>
+          <a href="#early-access">Early Access</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#early-access">Contact Us</a>
+          <a href="#">Refund Policy</a>
+        </div>
+        <div class="footer-col">
+          <h4>Get in Touch</h4>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <a href="https://wa.me/919328996083" target="_blank" rel="noopener">+91 93289 96083</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:leadnudge.team@gmail.com">leadnudge.team@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&#169; 2026 LeadNudge Technologies Pvt. Ltd. All rights reserved.</span>
+      <span class="footer-made">
+        Built with
+        <span class="footer-heart">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </span>
+        in Ahmedabad, India
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+
+  hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    const spans = hamburger.querySelectorAll('span');
+    if (menuOpen) {
+      spans[0].style.cssText = 'transform:rotate(45deg) translate(5px,5px)';
+      spans[1].style.cssText = 'opacity:0';
+      spans[2].style.cssText = 'transform:rotate(-45deg) translate(5px,-5px)';
+    } else {
+      spans.forEach(s => s.style.cssText = '');
+    }
+  });
+
+  function closeMobileMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    hamburger.querySelectorAll('span').forEach(s => s.style.cssText = '');
+  }
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Video demo lazy-load
+  function loadDemoVideo(placeholder) {
+    const src = placeholder.dataset.src;
+    if (!src || src === 'YOUR_VIDEO_EMBED_URL_HERE') {
+      alert('Video coming soon! Check back shortly.');
+      return;
+    }
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.frameBorder = '0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+    iframe.title = 'LeadNudge Demo';
+    placeholder.parentNode.replaceChild(iframe, placeholder);
+  }
+
+  // Stats counter
+  function animateCount(el, target, suffix, duration) {
+    const start = performance.now();
+    const update = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const v = Math.floor(ease * target);
+      el.textContent = v.toLocaleString('en-IN') + suffix;
+      if (p < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString('en-IN') + suffix;
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const nums = e.target.querySelectorAll('.stat-number');
+      const config = [{ val: 87, s: '%' }, { val: 3, s: 'x' }, { val: 10, s: 'K+' }];
+      nums.forEach((el, i) => { if (config[i]) animateCount(el, config[i].val, config[i].s, 1400); });
+      statsObs.unobserve(e.target);
+    });
+  }, { threshold: 0.4 });
+
+  const statsEl = document.getElementById('stats');
+  if (statsEl) statsObs.observe(statsEl);
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--green)' : '';
+    });
+  }, { passive: true });
+
+  // Form submit
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwRoZ-7OUueRgZ51QyV6cRO2O67ULQyOjtCK0yiza8VwdVaDXUQs_KRAGVvhkvvw3Ss1w/exec';
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('earlyAccessForm');
+    const btn = form.querySelector('.ea-submit');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .8s linear infinite"><polyline points="23 4 23 11 16 11"/><path d="M20.49 15a9 9 0 1 1-.07-5.88"/></svg> Submitting...';
+
+    const payload = {
+      name:  document.getElementById('f-name').value.trim(),
+      phone: document.getElementById('f-phone').value.trim(),
+      email: document.getElementById('f-email').value.trim(),
+      city:  document.getElementById('f-city').value.trim()
+    };
+
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      form.style.display = 'none';
+      document.getElementById('successBanner').classList.add('show');
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+      alert('Something went wrong. Please try again or WhatsApp us directly.');
+    });
+  }
+</script>
+
+</body>
+</html>
